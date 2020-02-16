@@ -1,0 +1,203 @@
+[lorecast162-general]
+width = 90%
+offset-x = 5%
+radius = 10
+separator = |
+font-0 = "MesloLGS Nerd Font:size=13;0"
+padding = 1
+
+[colors]
+background = #cc440044
+foreground = #ffffff
+transparent = #00000000
+
+[bar/top]
+padding = ${lorecast162-general.padding}
+background = ${colors.background}
+font-0 = ${lorecast162-general.font-0}
+modules-right = wired-network wireless-network alsa battery
+modules-center = date test
+modules-left = logo i3
+separator = ${lorecast162-general.separator}
+bottom = false
+radius-bottom = ${lorecast162-general.radius}
+radius-top = 0
+tray-position = left
+
+[bar/bottom]
+padding = ${lorecast162-general.padding}
+background = ${colors.background}
+font-0 = ${lorecast162-general.font-0}
+modules-left = mpd-left
+modules-center = mpd-center fs
+modules-right = mpd-right
+separator = ${lorecast162-general.separator}
+bottom = true
+radius-top = ${lorecast162-general.radius}
+radius-bottom = 0
+
+[module/test]
+type = custom/text
+#content = ${env:DEFAULT_ETHERNET:fallback}
+#content = ${module/getdefaultwifi.label:fallback}
+
+[module/logo]
+type = custom/text
+content = 
+click-left = exec rofiPoweroff.sh
+
+[module/date]
+type = internal/date
+date = %d/%m/%Y
+time = %H:%M:%S
+
+label = %time% %date%
+label-foreground = #ffffff
+
+[module/i3]
+type = internal/i3
+pin-workspaces = true
+
+label-mode = %mode%
+label-mode-padding = 2
+
+label-focused = %index% 
+label-focused-background = #AA11AA
+label-focused-padding = 2
+
+label-unfocused-padding = 1
+label-unfocused-background = #555555
+
+label-separator = |
+#label-separator-padding = 0.25
+label-separator-background = #555555
+
+[module/wired-network]
+type = internal/network
+interface = ${env:DEFAULT_ETHERNET:fallback}
+label-disconnected-foreground = #FF1111
+label-disconnected = : DOWN
+label-connected-foreground = #11FF11
+label-connected = : UP (%local_ip%) %linkspeed%
+
+[module/wireless-network]
+type = internal/network
+interface = ${env:DEFAULT_WIFI:fallback}
+label-disconnected-foreground = #FF1111
+label-disconnected = 睊: DOWN
+label-connected-foreground = #11FF11
+label-connected = 直: %local_ip% on %essid%
+unknown-as-up: true
+
+[module/alsa]
+type = internal/pulseaudio
+
+label-volume =  %percentage%
+label-muted =  %percentage%
+
+[module/fs]
+type = internal/fs
+
+mount-0 = /
+mount-1 = /home
+
+format-mounted = <label-mounted> )
+bar-used-width = 10
+bar-used-empty = -
+bar-used-empty-foreground = ${colors.transparent}
+bar-used-indicator = ▶
+bar-used-fill = ■
+
+label-mounted = (%mountpoint% %free%/%total%
+label-unmounted = %mountpoint% (not mounted)
+
+[module/mpd-right]
+type = internal/mpd
+
+host = 127.0.0.1
+port = 6600
+
+format-online = <icon-prev> <icon-seekb> <icon-stop> <toggle> <icon-seekf> <icon-next> <icon-repeat> <icon-random>
+format-playing = ${self.format-online}
+format-paused = ${self.format-online}
+format-stopped = ${self.format-online}
+
+format-offline = <label-offline>
+
+label-offline = mpd offline!
+label-offline-foreground = #FF0000
+
+icon-play = 
+icon-toggle = 懶
+icon-pause = 
+icon-stop = 
+icon-prev = 
+icon-next = 
+icon-seekf = 
+icon-seekb = 
+icon-random = 列
+icon-repeat = 累
+
+[module/mpd-left]
+type = internal/mpd
+
+host = 127.0.0.1
+port = 6600
+
+format-online = <bar-progress> <label-time> 
+format-playing = ${self.format-online}
+format-paused = ${self.format-online}
+format-stopped = ${self.format-online}
+
+label-song = %artist% - %title%
+
+label-time = %elapsed% / %total%
+
+bar-progress-width = 20
+bar-progress-indicator = ▶
+bar-progress-fill = ■
+bar-progress-empty = ■  
+bar-progress-empty-background = ${colors.background}
+bar-progress-empty-foreground = ${colors.transparent}
+
+[module/mpd-center]
+type = internal/mpd
+
+host = 127.0.0.1
+port = 6600
+
+format-online = <label-song>
+format-playing = 蓼 <label-song>
+format-paused = 遼 <label-song>
+format-stopped = <label-song>
+
+label-song = %artist% - %title%
+
+[module/getdefaultwifi]
+type = custom/script
+
+exec = $HOME/.config/polybar/getwifi.sh
+
+[module/getdefaultethernet]
+type = custom/script
+
+exec = $HOME/.config/polybar/getethernet.sh
+
+
+[module/battery]
+type = internal/battery
+
+battery = BATC
+adapter = ADP1
+
+format-charging = <ramp-capacity> <label-charging>
+format-discharging = <ramp-capacity> <label-discharging>
+
+label-charging =  %percentage%%
+label-discharging = %percentage%%
+
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
