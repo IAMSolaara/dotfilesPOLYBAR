@@ -49,10 +49,10 @@ type = custom/script
 exec = ./networkstatus.sh eth
 interval = 0
 
-[module/logo]
-type = custom/text
-content = 
-click-left = exec rofiPoweroff.sh
+;[module/logo]
+;type = custom/text
+;content = 
+;click-left = exec rofiPoweroff.sh
 
 [module/date]
 type = internal/date
