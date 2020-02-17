@@ -39,11 +39,15 @@ bottom = true
 radius-top = ${lorecast162-general.radius}
 radius-bottom = 0
 
-[module/test]
+[module/wireless-network]
 type = custom/script
-#content = ${env:DEFAULT_ETHERNET:fallback}
-#content = ${module/getdefaultwifi.label:fallback}
-exec = ./test.sh
+exec = ./networkstatus.sh wifi
+interval = 0
+
+[module/wired-network]
+type = custom/script
+exec = ./networkstatus.sh eth
+interval = 0
 
 [module/logo]
 type = custom/text
@@ -75,23 +79,6 @@ label-unfocused-background = #555555
 label-separator = |
 #label-separator-padding = 0.25
 label-separator-background = #555555
-
-[module/wired-network]
-type = internal/network
-interface = ${file:$HOME/.config/polybar/ethernet:fallback}
-label-disconnected-foreground = #FF1111
-label-disconnected = : DOWN
-label-connected-foreground = #11FF11
-label-connected = : %local_ip%
-
-[module/wireless-network]
-type = internal/network
-interface = ${file:$HOME/.config/polybar/wifi:fallback}
-label-disconnected-foreground = #FF1111
-label-disconnected = 睊
-label-connected-foreground = #11FF11
-label-connected = 直: %local_ip% (%essid%)
-unknown-as-up: true
 
 [module/alsa]
 type = internal/pulseaudio
