@@ -18,7 +18,7 @@ wifi() {
 			down) echo "%{F#FF1111}"$ICON_WIFI_DISCONNECTED": DOWN" ;;
 		esac
 	else
-		echo "Please add interface info file.";
+		echo "";
 	fi
 }
 
@@ -32,7 +32,7 @@ ethernet() {
 			down) echo "%{F#FF1111}"$ICON_ETHERNET_DISCONNECTED": DOWN" ;;
 		esac
 	else
-		echo "Please add interface info file.";
+		echo "";
 	fi
 }
 
