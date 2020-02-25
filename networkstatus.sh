@@ -1,5 +1,8 @@
 #!/bin/sh
 
+#get script directory
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
 #wifi icons
 ICON_WIFI_DISCONNECTED='睊'
 ICON_WIFI_CONNECTED='直'
@@ -9,28 +12,36 @@ ICON_ETHERNET_DISCONNECTED=''
 ICON_ETHERNET_CONNECTED=''
 
 wifi() {
-	if [[ -f ./wifi ]]; then
-		local IFACE=`cat ./wifi`
-		STATEFILE='/sys/class/net/'$IFACE'/operstate'
+	if [[ ! -f $DIR/wifi.dis ]]; then
+		if [[ -f $DIR/wifi ]]; then
+			local IFACE=`cat $DIR/wifi`
+			STATEFILE='/sys/class/net/'$IFACE'/operstate'
 
-		case `cat $STATEFILE` in
-			up)	echo "%{F#11FF11}"$ICON_WIFI_CONNECTED": "`ip -4 addr show $IFACE | grep -oP '(?<=inet\s)\d+(\.\d+){3}'`' ('`iwgetid --raw`')' ;;
-			down) echo "%{F#FF1111}"$ICON_WIFI_DISCONNECTED": DOWN" ;;
-		esac
+			case `cat $STATEFILE` in
+				up)	echo "%{F#11FF11}"$ICON_WIFI_CONNECTED": "`ip -4 addr show $IFACE | grep -oP '(?<=inet\s)\d+(\.\d+){3}'`' ('`iwgetid --raw`')' ;;
+				down) echo "%{F#FF1111}"$ICON_WIFI_DISCONNECTED": DOWN" ;;
+			esac
+		else
+			echo "";
+		fi
 	else
 		echo "";
 	fi
 }
 
 ethernet() {
-	if [[ -f ./ethernet ]]; then
-		local IFACE=`cat ./ethernet`
-		STATEFILE='/sys/class/net/'$IFACE'/operstate'
+	if [[ ! -f $DIR/ethernet.dis ]]; then
+		if [[ -f $DIR/ethernet ]]; then
+			local IFACE=`cat $DIR/ethernet`
+			STATEFILE='/sys/class/net/'$IFACE'/operstate'
 
-		case `cat $STATEFILE` in
-			up)	echo "%{F#11FF11}"$ICON_ETHERNET_CONNECTED": "`ip -4 addr show $IFACE | grep -oP '(?<=inet\s)\d+(\.\d+){3}'` ;;
-			down) echo "%{F#FF1111}"$ICON_ETHERNET_DISCONNECTED": DOWN" ;;
-		esac
+			case `cat $STATEFILE` in
+				up)	echo "%{F#11FF11}"$ICON_ETHERNET_CONNECTED": "`ip -4 addr show $IFACE | grep -oP '(?<=inet\s)\d+(\.\d+){3}'` ;;
+				down) echo "%{F#FF1111}"$ICON_ETHERNET_DISCONNECTED": DOWN" ;;
+			esac
+		else
+			echo "";
+		fi
 	else
 		echo "";
 	fi

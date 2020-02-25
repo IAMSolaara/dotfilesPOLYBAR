@@ -41,7 +41,7 @@ radius-bottom = 0
 
 [module/wireless-network]
 type = custom/script
-exec = $HOME/.config/polybar/networkstatus.sh wifi
+exec = /home/lorecast162/.config/polybar/networkstatus.sh wifi
 interval = 0
 
 [module/wired-network]
